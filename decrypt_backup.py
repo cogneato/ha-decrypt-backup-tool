@@ -157,66 +157,22 @@ def main():
         print("It should be in the format: XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX")
         while True:
             manual_key = input("Key: ").strip()
-            if re.match(r'^([A-Z0-9]{4}-){6}[A-Z0-9]{4}
-    
-    # Look for tar files
-    tar_files = glob.glob('*.tar')
-    if not tar_files:
-        print("❌ Error: No .tar files found!")
-        print("Please place your backup .tar files in this directory.")
-        sys.exit(3)
-    
-    print(f"📁 Found {len(tar_files)} backup file(s) to process")
-    
-    success_count = 0
-    for tar_file in tar_files:
-        try:
-            _dirname = extract_tar(tar_file)
-            # Look for encrypted tar.gz files in the extracted directory
-            secure_tars = glob.glob(f'{_dirname}/*.tar.gz')
-            if not secure_tars:
-                print(f"ℹ️  No encrypted files found in {tar_file}")
-                continue
-                
-            for secure_tar in secure_tars:
-                if extract_secure_tar(secure_tar, key):
-                    os.remove(secure_tar)  # Remove the encrypted file after successful extraction
-                    success_count += 1
-        except Exception as e:
-            print(f"❌ Error processing {tar_file}: {str(e)}")
-    
-    if success_count > 0:
-        print(f"\n✅ Successfully decrypted {success_count} backup file(s)!")
-        print("You can find the decrypted files in the extracted directories.")
-    else:
-        print("\n⚠️  No files were successfully decrypted.")
-        print("Please check that your backup files and emergency kit are correct.")
-
-if __name__ == "__main__":
-    try:
-        main()
-    except KeyboardInterrupt:
-        print("\n\n⚠️  Operation cancelled by user")
-        sys.exit(1)
-    except Exception as e:
-        print(f"\n❌ Unexpected error: {str(e)}")
-        sys.exit(1)
-, manual_key):
+            if re.match(r'^([A-Z0-9]{4}-){6}[A-Z0-9]{4}', manual_key):
                 key = manual_key
                 print("✅ Key format verified")
                 break
             else:
                 print("❌ Invalid key format. Please try again.")
-    
-    # Look for tar files
+
+                # Look for tar files
     tar_files = glob.glob('*.tar')
     if not tar_files:
         print("❌ Error: No .tar files found!")
         print("Please place your backup .tar files in this directory.")
         sys.exit(3)
-    
+
     print(f"📁 Found {len(tar_files)} backup file(s) to process")
-    
+
     success_count = 0
     for tar_file in tar_files:
         try:
@@ -226,14 +182,14 @@ if __name__ == "__main__":
             if not secure_tars:
                 print(f"ℹ️  No encrypted files found in {tar_file}")
                 continue
-                
+
             for secure_tar in secure_tars:
                 if extract_secure_tar(secure_tar, key):
                     os.remove(secure_tar)  # Remove the encrypted file after successful extraction
                     success_count += 1
         except Exception as e:
             print(f"❌ Error processing {tar_file}: {str(e)}")
-    
+
     if success_count > 0:
         print(f"\n✅ Successfully decrypted {success_count} backup file(s)!")
         print("You can find the decrypted files in the extracted directories.")
