@@ -135,10 +135,6 @@ def main():
     
     # Look for emergency kit file
     kit_files = glob.glob('*emergency*kit*.txt')
-    if not kit_files:
-        print("❌ Error: No emergency kit file found!")
-        print("Please place your emergency kit text file in this directory.")
-        sys.exit(1)
     
     # Try to extract key from the kit file first
     key = None
@@ -157,7 +153,12 @@ def main():
         print("It should be in the format: XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX")
         while True:
             manual_key = input("Key: ").strip()
-            if re.match(r'^([A-Z0-9]{4}-){6}[A-Z0-9]{4}
+            if re.match(r'^([A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4})', manual_key):
+                key = manual_key
+                print("✅ Key format verified")
+                break
+            else:
+                print("❌ Invalid key format. Please try again.")
     
     # Look for tar files
     tar_files = glob.glob('*.tar')
@@ -201,12 +202,6 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"\n❌ Unexpected error: {str(e)}")
         sys.exit(1)
-, manual_key):
-                key = manual_key
-                print("✅ Key format verified")
-                break
-            else:
-                print("❌ Invalid key format. Please try again.")
     
     # Look for tar files
     tar_files = glob.glob('*.tar')
