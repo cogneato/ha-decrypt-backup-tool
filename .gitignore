@@ -8,3 +8,5 @@ build/
 *.tar.gz
 
 .DS_Store
+
+CLAUDE.md
